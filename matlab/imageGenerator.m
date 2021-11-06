@@ -1,4 +1,4 @@
-[P, E] = phantom('Modified Shepp-Logan', 256);
+[P, E] = mriphantom('Modified Shepp-Logan', 500);
 imshow(P);
 
 %baseFileName = sprintf('Image #%d.png', k);
@@ -73,7 +73,7 @@ for c = 1: s
     end
 
 
-    createP = phantom(E);
+    createP = mriphantom(E, 500);
 
     baseFileName = sprintf('Image_%d.png', c);
     fullFileName = fullfile('images', baseFileName);
