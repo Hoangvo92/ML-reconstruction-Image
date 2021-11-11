@@ -8,7 +8,7 @@ classdef utils
            T2 = alfa * exp(b*beta);
       end
 
-      function rowE = createParts(i, a, b, x, y, phi, t1, t2, pd)
+      function rowE = createParts(i, a, b, x, y, phi, t1, t2, pd, t2dot, tr, te)
 %     Column 1:  A    the additive intensity value of the ellipse
 %     Column 2:  a    the length of the horizontal semi-axis of the ellipse 
 %     Column 3:  b    the length of the vertical semi-axis of the ellipse
@@ -23,7 +23,7 @@ classdef utils
 %     Column 11: D2
 %     Column 12: D3
 %     Column 13: D4
-            rowE = [ i a b x y phi t1 t2 pd 0 0 0 0];
+            rowE = [ i a b x y phi t1 t2 pd t2dot tr te 0];
       end
 
       function E1 = showT1 (obj, E)
@@ -54,6 +54,18 @@ classdef utils
              end
              Epd = E;
        end
+
+       function SI = calculateSignal(obj, alfa, t1, t2dot, tr, te) 
+              kh = 1;
+              cosa = cos(alfa); 
+              sina = sin(alfa);
+              ratio1 = -tr/t1;
+              ratio2 = -te/t2dot;
+              p1 = sina * (1 -  exp(ratio1));
+              p2 = 1 - cosa * exp(ratio1);
+              p3 = exp(ratio2);
+              SI = kh * (p1 / p2) * p3;
+        end
 
      end
 end
