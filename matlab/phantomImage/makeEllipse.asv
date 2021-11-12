@@ -14,17 +14,17 @@ function E = makeEllipse(TR, TE, alfa)
     r9 = makeRow0(0.023, 0.023, 0, -.606, .65, 0.1, 0, .1, TR, TE, pd, A, alfa);
     r10 = makeRow0(0.023, 0.046, .06, -.605, .78, 0.2, 0, 0, TR, TE, pd, A, alfa);
     E = [r1; r2; r3; r4; r5; r6; r7; r8; r9; r10];
-   % noise = 10 * rand;
-    %if noise < 5
-        r11 = makeRow0(0.023, 0.023, -.3, -.606, .65, 0.1, 0, .1, TR, TE, pd, A, alfa);
+    noise = 10 * rand;
+    if noise < 5
+        r11 = makerow0(0.023, 0.023, -.3, -.606, .65, 0.1, 0, .1, TR, TE, pd, A, alfa);
         E = [E; r11];
-   % end
+    end
 
-   % noise = 10 * rand;
-    %if noise < 5
-        r12 = makeRow0(0.023, 0.023, -.3, -.5, 4.2, 1.99, 0, 1.99, TR, TE, pd, A, alfa);
+    noise = 10 * rand;
+    if noise < 5
+        r12 = makerow0(0.023, 0.023, -.3, -.5, .65, 0.1, 0, .1, TR, TE, pd, A, alfa);
         E = [E; r12];
-  %  end
+    end
 end
 
 function row0 = makeRow0( a, b, x0, y0, t1, t2, phi, t2dot, TR, TE, pd, A, alfa)
