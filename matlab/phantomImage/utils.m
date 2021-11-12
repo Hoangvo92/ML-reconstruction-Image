@@ -8,7 +8,11 @@ classdef utils
            T2 = alfa * exp(b*beta);
       end
 
-      function rowE = createParts(i, a, b, x, y, phi, t1, t2, pd, t2dot, tr, te)
+      function Ellipse = mergeEllipse(obj, E1, E2, E3, E4, E5, E6, E7, E8, E9, E10)
+            Ellipse = [E1; E2; E3; E4; E5; E6; E7; E8; E9; E10];
+      end
+
+      function rowE = createParts(obj, i, a, b, x, y, phi, t1, t2, pd, t2dot, tr, te)
 %     Column 1:  A    the additive intensity value of the ellipse
 %     Column 2:  a    the length of the horizontal semi-axis of the ellipse 
 %     Column 3:  b    the length of the vertical semi-axis of the ellipse

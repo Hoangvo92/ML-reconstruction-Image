@@ -81,18 +81,18 @@ for k = 1:size(ellipse,1)
    phi = ellipse(k,6)*pi/180;  % rotation angle in radians
    x0 = ellipse(k,4);          % x offset
    y0 = ellipse(k,5);          % y offset
-   t1 = ellipse(k, 7);         % t1
-   t2dot = ellipse(k, 11);
-   tr = ellipse(k, 12);
-   te = ellipse(k, 13);
-   A = calculateSignal(phi, t1, t2dot, tr, te);
-   %A = ellipse(k,1);           % Amplitude change for this ellipse
+   t2dot = ellipse(k,10);
+  % A = calculateSignal(phi, t1, t2dot, tr, te);
+   A = ellipse(k,1);           % Amplitude change for this ellipse
    x=xg-x0;                    % Center the ellipse
    y=rot90(xg)-y0;  
    cosp = cos(phi); 
    sinp = sin(phi);
+
    idx=find(((x.*cosp + y.*sinp).^2)./asq + ((y.*cosp - x.*sinp).^2)./bsq <= 1); 
-   p(idx) = p(idx) + A;
+
+
+   p(idx) = p(idx) + t2dot;
 end
    
    
@@ -130,6 +130,19 @@ for i=1:nargin
    end
 end
 
+
+%function SI = calculateSignal(alfa, t1, t2dot, tr, te) 
+%    kh = 1;
+%    cosa = cos(alfa); 
+%    sina = sin(alfa);
+%    ratio1 = -tr/t1;
+%    ratio2 = -te/t2dot;
+%    p1 = sina * (1 -  exp(ratio1));
+%    p2 = 1 - cosa * exp(ratio1);
+%    p3 = exp(ratio2);
+%    SI = kh * (p1 / p2) * p3;
+
+%end
 if isempty(e)                    % ellipse is not yet defined
    e = modified_shepp_logan;
 end
@@ -168,16 +181,16 @@ function toft=modified_shepp_logan
 %      
 %         A    a     b    x0    y0    phi  T1    T2     PD    T2*   TR   TE   d4
 %        --------------------------------------------------------------
-toft = [  1   .69   .92    0     0     0   .315  0.08    0     .062   300 40    0
-        -.8  .6624 .8740   0  -.0184   0  0.47   0.1     0     .0875  300 40    0 
-        -.2  .1100 .3100  .22    0    -18 4.2    1.99    0    1.99    300 40    0
-        -.2  .1600 .4100 -.22    0     18 4.2    1.99    0    1.99    300 40    0 
-         .1  .2100 .2500   0    .35    0  4.2    1.99    0    1.99    300 40    0 
-         .1  .0460 .0460   0    .1     0  4.2    1.99    0    1.99    300 40    0  
-         .1  .0460 .0460   0   -.1     0   .65    .1     0     .1     300 40    0 
-         .1  .0460 .0230 -.08  -.605   0  4.2    1.99    0    1.99    300 40    0 
-         .1  .0230 .0230   0   -.606   0   .65    .1     0     .1     300 40    0  
-         .1  .0230 .0460  .06  -.605   0   .78    .2     0      0     300 40    0];
+toft = [  1   .69   .92    0     0     0   .315  0.08    1     .062   300 40    0
+        -.8  .6624 .8740   0  -.0184   0  0.47   0.1     1     .0875  300 40    0 
+        -.2  .1100 .3100  .22    0    -18 4.2    1.99    1    1.99    300 40    0
+        -.2  .1600 .4100 -.22    0     18 4.2    1.99    1    1.99    300 40    0 
+         .1  .2100 .2500   0    .35    0  4.2    1.99    1    1.99    300 40    0 
+         .1  .0460 .0460   0    .1     0  4.2    1.99    1    1.99    300 40    0  
+         .1  .0460 .0460   0   -.1     0   .65    .1     1     .1     300 40    0 
+         .1  .0460 .0230 -.08  -.605   0  4.2    1.99    1    1.99    300 40    0 
+         .1  .0230 .0230   0   -.606   0   .65    .1     1     .1     300 40    0  
+         .1  .0230 .0460  .06  -.605   0   .78    .2     1      0     300 40    0];
        
 
        
