@@ -3,7 +3,7 @@
 function [P, Ellipse] = generateImage( choice, TR, TE, alfa)
     E = makeEllipse(TR, TE, alfa);
     if choice == 0
-        [P, Ellipse] = mriphantom(E, 500);
+        [P, Ellipse] = mriphantom(E, 500); %good combination (0, 5, 2, 30)
     end
     
     if choice == 1
