@@ -71,6 +71,15 @@ for c = 1: s
        
         E(4,[2 3 4]) = [alfa2 beta2 cenx2];
     end
+    
+    alfa = 20 * rand + 20;
+    TR = 20 * rand + 1;
+    TE = 10 * rand;
+    for r = 1: height(E)
+         E(r,13) = alfa;
+         E(r,12) = TE;
+         E(r,11) = TR;
+    end
 
 
     createP = mriphantom(E, 500);
@@ -79,4 +88,10 @@ for c = 1: s
     fullFileName = fullfile('images', baseFileName);
     imwrite(createP, fullFileName);
 
+    % Create a table with the data and variable names
+    T = table(TR, TE, alfa, 'VariableNames', { 'TR', 'TE', 'alfa'} );
+    % Write data to text file
+    baseTextName = sprintf('%d.txt', c);
+    fullTextName = fullfile('texts', baseTextName);
+    writetable(T, fullTextName);
 end
