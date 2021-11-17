@@ -4,7 +4,7 @@ imshow(P);
 %baseFileName = sprintf('Image #%d.png', k);
 %fullFileName = fullfile(folder, baseFileName);
 %imwrite(yourImage, fullFileName);
-s = 500;
+s = 400;
 alfa1 = E(3,2);
 alfa2 = E(4,2);
 beta1 = E(3,3);
