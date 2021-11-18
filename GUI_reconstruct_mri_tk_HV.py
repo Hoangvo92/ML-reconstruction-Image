@@ -73,7 +73,7 @@ btn_parameters = Button(master, text="Predict Values")
 btn_open.grid(row = 3, column= 0)
 btn_add_noise.grid(row=3, column= 1)
 btn_reconstruct.grid(row=3, column=2)
-btn_reconsctruct.grid(row=3, column =3)
+btn_parameters.grid(row=3, column =3)
     
 master.mainloop()
 #app.mainloop()
