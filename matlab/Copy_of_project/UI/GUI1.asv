@@ -62,9 +62,7 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 handles.index = 0;
 guidata(hObject, handles);
-setappdata(0, 'axes1', handles.axes1);
-setappdata(0, 'axes2', handles.axes2);
-setappdata(0, 'axes3', handles.axes3);
+setapp
 
 
 % --- Outputs from this function are returned to the command line.
@@ -106,10 +104,10 @@ function B1_2_Callback(hObject, eventdata, handles)
 % hObject    handle to B1_2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-  E = getappdata(0, 'E');
-  P1 = getappdata(0, 'P1');
-  P2 = getappdata(0, 'P2');
-  P3 = getappdata(0, 'P3');
+  E = handles.E;
+  P1 = handles.P1;
+  P2 = handles.P2;
+  P3 = handles.P3;
   idx = handles.index;
   saveImage(E, idx, P1, "MRI");
   saveImage(E, idx, P2, "IMT1");

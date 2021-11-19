@@ -67,7 +67,7 @@ handles.E = [];
 %guidata(hObject, handles);
 setappdata(0, 'E', []);
 setappdata(0  , 'GUI2'    , gcf);
-%setappdata(gcf,   'GUI3'    , 121);
+setappdata(gcf,   'GUI3'    , 121);
 setappdata(gcf, 'updateE', @updateE);
 
 % --- Outputs from this function are returned to the command line.
@@ -100,12 +100,12 @@ function updateE
 Gui2 = getappdata(0, 'GUI2');
 %fileName = getappdata(Gui2, 'fileName');
 %Gui3   = getappdata(Gui2, 'GUI3');
-ellipse = getappdata(0, 'E');
-rowE = getappdata(0, 'rowE');
+ellipse = getappdata(Gui2, 'E');
+rowE = getappdata(Gui2, 'rowE');
 ellipse = [ellipse; rowE];
 num_E = height(ellipse);
 setappdata(Gui2, 'E', ellipse);
-edit1 = findobj(Gui2, 'tag', 'edit1');
+edit1 = findobj(Gui2, 'type', 'edit');
 set(edit1, 'String', string(num_E));
 
 %    ellipse = getappdata(handles.GUI2,'E');
@@ -129,27 +129,26 @@ function B2_2_Callback(hObject, eventdata, handles)
    handles.E = E;
    set(handles.edit1, 'String', string(num_E));
    guidata(hObject, handles);
-   setappdata(0, "E", E);
+   setappdata(handles.E, "E", E);
 
 % --- Executes on button press in B2_3.
 function B2_3_Callback(hObject, eventdata, handles)
 % hObject    handle to B2_3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    E = getappdata(0, 'E');
+    E = handles.E;
     P1 =  mriphantom(E, 500);
-    axes(getappdata(0, 'axes2'));
+    axes(handles.axes2);
     imshow(P1);
     P2 = imt1phantom(E, 500);
-    axes(getappdata(0, 'axes1'));
-   % axes(handles.axes1);
+    axes(handles.axes1);
     imshow(P2);
     P3 = imt2phantom(E, 500);
-    axes(getappdata(0, 'axes3'));
+    axes(handles.axes3);
     imshow(P3);
-    setappdata(0, 'P1', P1);
-    setappdata(0, 'P2', P2);
-    setappdata(0, 'P3', P3);
+    handles.P1 = P1;
+    handles.P2 = P2;
+    handles.P3 = P3;
     guidata(hObject,handles);
     closereq();
 

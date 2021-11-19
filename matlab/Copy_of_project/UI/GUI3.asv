@@ -62,7 +62,6 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 handles.rowE =[];
 guidata(hObject, handles);
-setappdata(0, 'rowE', []);
 
 
 % --- Outputs from this function are returned to the command line.
@@ -450,40 +449,24 @@ function Y3_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     a = str2double(get(handles.a, 'String'));
-    b = str2double(get(handles.b, 'String'));
-    x0 = str2double(get(handles.X0, 'String'));
-    y0 = str2double(get(handles.Y0, 'String'));
-    phi = str2double(get(handles.phi, 'String'));
-    alfa1 = str2double(get(handles.alfa1, 'String'));
-    beta1 = str2double(get(handles.beta1, 'String'));
-    T1 = str2double(get(handles.T1, 'String'));
-    T2 = str2double(get(handles.T2, 'String'));
-    PD = str2double(get(handles.PD, 'String'));
-    alfa2 = str2double(get(handles.alfa2, 'String'));
-    beta2 = str2double(get(handles.beta2, 'String'));
-    T2dot = str2double(get(handles.T2dot, 'String'));
-    TR = str2double(get(handles.TR, 'String'));
-    TE = str2double(get(handles.TE, 'String'));
+    b = str2double(get(handles.a, 'String'));
+    x0 = str2double(get(handles.a, 'String'));
+    y0 = str2double(get(handles.a, 'String'));
+    phi = str2double(get(handles.a, 'String'));
+    alfa1 = str2double(get(handles.a, 'String'));
+    beta1 = str2double(get(handles.a, 'String'));
+    T1 = str2double(get(handles.a, 'String'));
+    T2 = str2double(get(handles.a, 'String'));
+    PD = str2double(get(handles.a, 'String'));
+    alfa2 = str2double(get(handles.a, 'String'));
+    beta2 = str2double(get(handles.a, 'String'));
+    T2 = str2double(get(handles.a, 'String'));
+    tr = str2double(get(handles.TR, 'String'));
+    te = str2double(get(handles.TE, 'String'));
     alpha = str2double(get(handles.alfa, 'String'));
-    rowE = makeEllipse(a, b, x0, y0, phi, alfa1, beta1, T1, T2, PD, alfa2, beta2, T2dot, TR, TE, alpha);
-    handles.rowE = rowE;
-    guidata(hObject,handles);
-    setappdata(0,'rowE', rowE);
-    ellipse = getappdata(0,'E');
-    ellipse = [ellipse; rowE];
-   % num_E = height(E);
-    %setappdata(handles.GUI2, "num_e", num_E);%handles.num_e = num_E;
-    setappdata(0, 'E', ellipse);%handles.E = E;
-
-    gui2 = getappdata(0, 'GUI2');
-    updateE = getappdata(gui2, 'updateE');
-    feval(updateE);
-  
-    closereq();
 
 % --- Executes on button press in N3.
 function N3_Callback(hObject, eventdata, handles)
 % hObject    handle to N3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-    closereq();
