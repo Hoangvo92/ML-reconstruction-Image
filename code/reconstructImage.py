@@ -1,4 +1,4 @@
-from resnet import ResNet, baseBlock
+from models.resnet import ResNet, baseBlock
 
 
 from torch.utils.data import DataLoader

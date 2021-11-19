@@ -58,6 +58,6 @@ def predictTE(modelName = '../models/model_te.h5'):
 
 
 
-if __name__ == '__main__':
-    x = str(sys.argv[1])
-    sys.stdout.write(str(predictTE(x)))
+#if __name__ == '__main__':
+#    x = str(sys.argv[1])
+ #   sys.stdout.write(str(predictTE(x)))
