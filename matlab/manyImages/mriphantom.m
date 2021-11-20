@@ -128,7 +128,8 @@ for k = 1:size(ellipse,1)
    p3 = exp(ratio2);
    si = kh * (p1 / p2) * p3;
  
-   p(idx) = p(idx) + si ;
+%   p(idx) = p(idx) + (A - si) ;
+   p(idx) = p(idx) + si;
 end
    
    

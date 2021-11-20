@@ -1,12 +1,14 @@
 
-s = 600;
+s = 800;
 
 fa = 1;
 flag = 1;
+count = 0;
+img_index = 1;
 for c = 1: s
     alfa = floor(20 * rand + 20);
-    TR = floor(20 * rand + 1);
-    TE = floor(10 * rand);
+    TR = floor(800 * rand + 1);
+    TE = floor(60 * rand);
     E1 = makeEllipse(TR, TE, alfa);
     n_ellipse = height(E1);
     k = floor((n_ellipse -1) * rand + 1);
@@ -24,8 +26,8 @@ for c = 1: s
         flag = 1;
     end
  
-    b = 0.0015125863 * rand();
-    alfa1 = alfa1 + 0.1*fa * b;
+    b = 0.9 * rand();
+   % alfa1 = alfa1 + 0.1*fa * b;
  
     beta1 = beta1 + 0.001*fa * b;
     cenx1 = cenx1 * (1.01 + b);
@@ -37,21 +39,31 @@ for c = 1: s
     if abs(ceny1) > 0.5
         ceny1 = 0;
     end
-    phi1 = phi1 + 100*rand;
+    phi1 = floor(phi1 + 100*rand);
 
     E1(k, [2 3 4 5 6]) = [alfa1 beta1 cenx1 ceny1 phi1];
     E = E1(k, :);
     createP = mriphantom(E, 500);
+    theSum = sum(sum(createP));
+    if theSum > 0.2
+      baseFileName = sprintf('%d.png', img_index);
+      fullFileName = fullfile('val/images', baseFileName);
+      imwrite(createP, fullFileName);
 
-    baseFileName = sprintf('%d.png', c);
-    fullFileName = fullfile('images', baseFileName);
-    imwrite(createP, fullFileName);
-
-    % Create a table with the data and variable names
+      % Create a table with the data and variable names
   %  T = table(TR, TE, alfa, 'VariableNames', { 'TR', 'TE', 'alfa'} );
-    T = table(TR, TE, alfa) ;  
-    % Write data to text file
-    baseTextName = sprintf('%d.txt', c);
-    fullTextName = fullfile('texts', baseTextName);
-    writetable(T, fullTextName);
+      T1 = E(7);
+      T2 = E(8);
+      T2dot = E(10);
+      T = table(T1, T2, T2dot, TR, TE, alfa) ;  
+      % Write data to text file
+      baseTextName = sprintf('%d.txt', img_index);
+      fullTextName = fullfile('val/texts', baseTextName);
+      writetable(T, fullTextName);
+      img_index = img_index + 1;
+    else
+        count = count + 1;
+    end
 end
+disp(count);
+disp(img_index);
