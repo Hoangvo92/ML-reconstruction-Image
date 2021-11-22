@@ -37,12 +37,13 @@ import random
 master = Tk()
 master.title("MRI Reconstruction- Hoang Vo")
 #app = MainWindow(master)
-master.geometry("1000x500")
+master.geometry("1000x200")
 #master.iconbitgmap("ML-reconstruction-Image/")
 
 def open():
     global first_image
     global myImage
+    global image1
     
     #first_image.grid_forget()
     
@@ -62,10 +63,13 @@ def open():
     first_image.grid(row=0, column=0, columnspan=2)
     #btn2 = Button(top, text="Add Noise").pack() #, command = top.destroy)
     #btn2.grid(row=1, column= 0)
+    btn_add_noise.grid(row=0, column= 1)
     
 def noise_image():
     global second_image
     global noiseImage
+    global image1
+    global image2
     
     #first_image.grid_forget()
     top = Toplevel()
@@ -79,6 +83,48 @@ def noise_image():
            
     second_image = Label(top, image= noiseImage)#.pack()
     second_image.grid(row=0, column=0, columnspan=2)
+    btn_reconstruct.grid(row=0, column=2)
+
+
+def reconstruct_image():
+    global third_image
+    global reconstructImage
+    global image2
+    global image3
+    
+    #first_image.grid_forget()
+    top = Toplevel()
+    top.title("Noise Image")
+    
+    image = Image.open("testing/test.png")
+    # do noise
+   # resized = myImage.resize((300,300),Image.ANTIALIAS)
+    noiseImage = ImageTk.PhotoImage(image)#.resize((300,300),Image.ANTIALIAS))
+    #tk_image = ImageTk.PhotoImage(myImage)
+           
+    second_image = Label(top, image= noiseImage)#.pack()
+    second_image.grid(row=0, column=0, columnspan=2)
+    btn_parameters.grid(row=0, column=3)
+
+def predictValue():
+    global third_image
+    global reconstructImage
+    global image2
+    global image3
+    
+    #first_image.grid_forget()
+    top = Toplevel()
+    top.title("Noise Image")
+    
+    image = Image.open("testing/test.png")
+    # do noise
+   # resized = myImage.resize((300,300),Image.ANTIALIAS)
+    noiseImage = ImageTk.PhotoImage(image)#.resize((300,300),Image.ANTIALIAS))
+    #tk_image = ImageTk.PhotoImage(myImage)
+           
+    second_image = Label(top, image= noiseImage)#.pack()
+    second_image.grid(row=0, column=0, columnspan=2)
+   
 
 #image1 = ImageTk.PhotoImage(Image.open("testing/test.png").resize((300,300),Image.ANTIALIAS))
 #first_image = Label(image = image1 )
@@ -92,15 +138,18 @@ def noise_image():
 btn_open =  Button(master, text= "Open File" , command = open) #.pack()
 
 btn_add_noise = Button(master, text ="Add Noise", command= noise_image)
-btn_reconstruct = Button(master, text="Reconstruct Image")
+btn_reconstruct = Button(master, text="Reconstruct Image", command=reconstruct_image)
 btn_parameters = Button(master, text="Predict Values")
 
 
 
-btn_open.grid(row = 3, column= 0)
-btn_add_noise.grid(row=3, column= 2)
-btn_reconstruct.grid(row=3, column=4)
-btn_parameters.grid(row=3, column =6)
+btn_open.grid(row = 0, column= 0)
+btn_add_noise.grid(row=0, column= 1)
+btn_add_noise.grid_forget()
+btn_reconstruct.grid(row=0, column=2)
+btn_reconstruct.grid_forget()
+btn_parameters.grid(row=0, column =3)
+btn_parameters.grid_forget()
     
 master.mainloop()
 #app.mainloop()
