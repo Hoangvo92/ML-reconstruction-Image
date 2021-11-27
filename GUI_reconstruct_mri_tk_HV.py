@@ -37,7 +37,7 @@ import random
 master = Tk()
 master.title("MRI Reconstruction- Hoang Vo")
 #app = MainWindow(master)
-master.geometry("1000x200")
+master.geometry("250x50")
 #master.iconbitgmap("ML-reconstruction-Image/")
 
 def open():
@@ -46,7 +46,11 @@ def open():
     global image1
     
     #first_image.grid_forget()
-    
+    btn_add_noise.grid_forget()
+
+    btn_reconstruct.grid_forget()
+   
+    btn_parameters.grid_forget()
     master.filename = filedialog.askopenfilename(initialdir="data", title="Select A File", filetypes=(("png files", "*.png"),("all files", "*.*")))
     top = Toplevel()
     top.title("Chosen Image")
@@ -70,7 +74,11 @@ def noise_image():
     global noiseImage
     global image1
     global image2
-    
+    btn_add_noise.grid_forget()
+
+    btn_reconstruct.grid_forget()
+   
+    btn_parameters.grid_forget()
     #first_image.grid_forget()
     top = Toplevel()
     top.title("Noise Image")
@@ -91,10 +99,14 @@ def reconstruct_image():
     global reconstructImage
     global image2
     global image3
-    
+    btn_add_noise.grid_forget()
+
+    btn_reconstruct.grid_forget()
+   
+    btn_parameters.grid_forget()
     #first_image.grid_forget()
     top = Toplevel()
-    top.title("Noise Image")
+    top.title("Reconstruct Image")
     
     image = Image.open("testing/test.png")
     # do noise
@@ -111,19 +123,31 @@ def predictValue():
     global reconstructImage
     global image2
     global image3
-    
+    btn_add_noise.grid_forget()
+
+    btn_reconstruct.grid_forget()
+   
+    btn_parameters.grid_forget()
     #first_image.grid_forget()
-    top = Toplevel()
-    top.title("Noise Image")
+    top3 = Toplevel()
+    top3.geometry("100x250")
+    top3.title("Values of TR and TE")
     
-    image = Image.open("testing/test.png")
-    # do noise
-   # resized = myImage.resize((300,300),Image.ANTIALIAS)
-    noiseImage = ImageTk.PhotoImage(image)#.resize((300,300),Image.ANTIALIAS))
-    #tk_image = ImageTk.PhotoImage(myImage)
-           
-    second_image = Label(top, image= noiseImage)#.pack()
-    second_image.grid(row=0, column=0, columnspan=2)
+
+    #################
+    #generate TR and TE in prediction
+    TR = "5"
+    TE = "2"
+      # Create text widget and specify size.
+    p1 = Label(top3, text= f"TR : {TR}", foreground="black")
+    p2 = Label(top3, text= f"TE : {TE}", foreground="black")
+    print("run")
+    p1.grid(row=0, column= 0, columnspan=3)
+    p2.grid(row=1, column= 0, columnspan=3)
+    
+  
+
+  
    
 
 #image1 = ImageTk.PhotoImage(Image.open("testing/test.png").resize((300,300),Image.ANTIALIAS))
@@ -139,7 +163,7 @@ btn_open =  Button(master, text= "Open File" , command = open) #.pack()
 
 btn_add_noise = Button(master, text ="Add Noise", command= noise_image)
 btn_reconstruct = Button(master, text="Reconstruct Image", command=reconstruct_image)
-btn_parameters = Button(master, text="Predict Values")
+btn_parameters = Button(master, text="Predict Values", command=predictValue)
 
 
 
