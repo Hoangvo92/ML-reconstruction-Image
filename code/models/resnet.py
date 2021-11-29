@@ -1,5 +1,5 @@
 #Importing all the relevant library
-%matplotlib inline
+#%matplotlib inline
 import h5py, os
 from scipy.io import loadmat
 from torch.utils.data import DataLoader
