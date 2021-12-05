@@ -35,23 +35,28 @@ def predictTE(modelName = '../models/model_te.h5'):
                                    verbose=1)
     pred_bool = (pred >0.5)
     predictions=[]
-    labels = {0: '0',
-              1: '1',
-              2: '2',
-              3: '3',
-              4: '4',
-              5: '5',
-              6: '6',
-              7: '7',
-              8: '8',
-              9: '9'}
+    labels = {}
+    file1 = open('../labels/TE_labels.txt', 'r')
+    Lines = file1.readlines()
+ 
+    count = 0
+    # Strips the newline character
+    for line in Lines:
+        labels[count] = line.strip()
+        count += 1
+    
     for row in pred_bool:
         l=[]
         for index,cls in enumerate(row):
             if cls:
                 l.append(labels[index])
         predictions.append(",".join(l))
-    result = float (predictions[0] ) 
+    result = 0
+    
+    if predictions[0] == '':
+        result = 0
+    else:
+        result = float (predictions[0] ) 
     return result
 
 

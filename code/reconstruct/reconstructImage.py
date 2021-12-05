@@ -4,12 +4,9 @@ from models.resnet import ResNet, baseBlock
 from torch.utils.data import DataLoader
 import numpy as np
 import torch
-from matplotlib import pyplot as plt
-import glob
-#from functions import transforms as T 
-#from functions.subsample import MaskFunc
 from PIL import Image
 from skimage.metrics import structural_similarity as cmp_ssim 
+import torchvision.transforms as T
 
 
 
@@ -17,23 +14,43 @@ def reconstructImage( img_gt, noise_image):
     model_dir = f"/models/restnet-model1.pt"
     model = loadResNet(model_dir)
         #noise_image = noise_image.to('cuda:0')
+
     
-    img_gt = img_gt.numpy()
+    img_gt = img_gt.unsqueeze(0).numpy()
+    noise_image = noise_image.unsqueeze(0)
+    noise_image = noise_image.unsqueeze(0)
     output = model(noise_image)
    # output = output.squeeze(1).cpu().detach().numpy()
-    output = output.squeeze(1).detach().numpy()   #image under numpy form
-    output_loss = torch.tensor(ssim(gt, output))  
-    image_loss = torch.tensor(ssim(gt, image.squeeze(1).numpy()))
-    SSIM_improvement = (output_loss.item()-image_loss.item())
+    output = output.squeeze(1).detach()
+    
+    output_np = output.numpy()   #image under numpy form
+    img_gt =  np.squeeze(img_gt)
+    output_np =  np.squeeze(output_np)
+    output_loss = torch.tensor(ssim(img_gt, output_np))  
     SSIM_score = output_loss.item()
-    np_rescontruct_image = transform_kspace_to_image(output)# image noise numpy array
-    im_reconstruct = Image.fromarray(np_rescontruct_image)
+    print(SSIM_score)
+    
+    #np_rescontruct_image =  output # np.reshape(output, (64, 64))# image noise numpy array
+    #np_rescontruct_image = transform_kspace_to_image(output)# image noise numpy array
+    im_reconstruct = T.ToPILImage()(output)
     im_reconstruct.save("testing/test.png") #for prediction values
     im_reconstruct.save("pred1.png")
 
     return im_reconstruct
     
 
+    
+    
+        image = image.unsqueeze(0)
+    image = image.unsqueeze(0)
+    gt = gt.unsqueeze(0).numpy()
+    output = model(image)
+  #  output = output.squeeze(1).cpu().detach().numpy()
+    output = output.squeeze(1).detach().numpy()
+    image = image.squeeze(1).numpy()
+    gt =  np.squeeze(gt)
+    output =  np.squeeze(output)
+    image =  np.squeeze(image)
 def loadResNet( model_dir):
     #load model on CPU: laptop
     device = torch.device('cpu')
