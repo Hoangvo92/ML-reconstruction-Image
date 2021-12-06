@@ -9,8 +9,8 @@ from keras.models import load_model
 ##https://stackoverflow.com/questions/1707780/call-python-function-from-matlab
 from keras_preprocessing.image import ImageDataGenerator
 
-def predictTE(modelName = '../models/model_te.h5'):
-    model = load_model(modeName)
+def predictTE(modelName = '../models/model_te.h5', labelText = '../labels/TE_labels.txt'):
+    model = load_model(modelName)
     test_data = []
     for fname in sorted(os.listdir('testing')):
         if fname == '.DS_Store' : continue
@@ -36,7 +36,7 @@ def predictTE(modelName = '../models/model_te.h5'):
     pred_bool = (pred >0.5)
     predictions=[]
     labels = {}
-    file1 = open('../labels/TE_labels.txt', 'r')
+    file1 = open(labelText, 'r')
     Lines = file1.readlines()
  
     count = 0
@@ -56,7 +56,8 @@ def predictTE(modelName = '../models/model_te.h5'):
     if predictions[0] == '':
         result = 0
     else:
-        result = float (predictions[0] ) 
+        listValue  = list(map(float, predictions[0].split(',')))
+        result = max(listValue) 
     return result
 
 

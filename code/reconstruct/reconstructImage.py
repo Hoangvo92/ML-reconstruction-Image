@@ -10,15 +10,15 @@ import torchvision.transforms as T
 
 
 
-def reconstructImage( img_gt, noise_image):
-    model_dir = f"/models/restnet-model1.pt"
+def reconstructImage( img_gt, noise_image, model_dir):
+    #model_dir = f"/models/restnet-model1.pt"
     model = loadResNet(model_dir)
         #noise_image = noise_image.to('cuda:0')
 
     
     img_gt = img_gt.unsqueeze(0).numpy()
     noise_image = noise_image.unsqueeze(0)
-    noise_image = noise_image.unsqueeze(0)
+    #noise_image = noise_image.unsqueeze(0)
     output = model(noise_image)
    # output = output.squeeze(1).cpu().detach().numpy()
     output = output.squeeze(1).detach()
@@ -33,24 +33,14 @@ def reconstructImage( img_gt, noise_image):
     #np_rescontruct_image =  output # np.reshape(output, (64, 64))# image noise numpy array
     #np_rescontruct_image = transform_kspace_to_image(output)# image noise numpy array
     im_reconstruct = T.ToPILImage()(output)
+    image_enlarge = im_reconstruct.resize((round(im_reconstruct.size[0]*4), round(im_reconstruct.size[1]*4)))
     im_reconstruct.save("testing/test.png") #for prediction values
-    im_reconstruct.save("pred1.png")
+    image_enlarge.save("pred1.png")
 
     return im_reconstruct
     
 
     
-    
-        image = image.unsqueeze(0)
-    image = image.unsqueeze(0)
-    gt = gt.unsqueeze(0).numpy()
-    output = model(image)
-  #  output = output.squeeze(1).cpu().detach().numpy()
-    output = output.squeeze(1).detach().numpy()
-    image = image.squeeze(1).numpy()
-    gt =  np.squeeze(gt)
-    output =  np.squeeze(output)
-    image =  np.squeeze(image)
 def loadResNet( model_dir):
     #load model on CPU: laptop
     device = torch.device('cpu')
@@ -64,5 +54,5 @@ def loadResNet( model_dir):
 def ssim(gt, pred):
     """ Compute Structural Similarity Index Metric (SSIM). """
     return cmp_ssim(
-        gt.transpose(1, 2, 0), pred.transpose(1, 2, 0), multichannel=True, data_range=gt.max()
+        gt, pred, multichannel=True, data_range=gt.max()
     )

@@ -6,7 +6,8 @@ from tkinter import filedialog
 from predict.predictTR import *
 from predict.predictTE import *
 from reconstruct.reconstructImage import *
-from reconstruct.test import *
+#from reconstruct.test import *
+from utility.transforms import noise_and_kspace, to_k_space, to_Pil_image, preprocessImage
 
 import sys
 import math
@@ -16,25 +17,6 @@ import random
 
 
 
-#class MainWindow(tk.Frame):
-#
- #   def __init__(self, master = None):
-  #      super().__init__(master)
-   #     self.pack()
-   #      ''' Step 1: Initialize the Qt window '''
-    #    self.master.title("MRI Reconstruction- Hoang Vo")
-     #   #https://www.geeksforgeeks.org/open-a-new-window-with-a-button-in-python-tkinter/
-    #    self.master.geometry("1000x500")
-        
-     #   self.master.grid_rowconfigure(0, weight=1)
-      #  self.master.grid_columnconfigure(0, weight=1)
-       # ''' Step 1: Initialize the Qt window '''
- 
-        
-
-        
-        #''' Step 3: Add the control panel to the right hand side of the central widget '''
- 
                 
       #https://www.youtube.com/watch?v=Aim_7fC-inw
       #https://www.tutorialsteacher.com/python/create-gui-using-tkinter-python
@@ -48,7 +30,7 @@ master.geometry("250x50")
 def open():
     global first_image
     global myImage
-    global image1
+    global image1 # original image
     
     #first_image.grid_forget()
     btn_add_noise.grid_forget()
@@ -56,20 +38,30 @@ def open():
     btn_reconstruct.grid_forget()
    
     btn_parameters.grid_forget()
-    master.filename = filedialog.askopenfilename(initialdir="data", title="Select A File", filetypes=(("png files", "*.png"),("all files", "*.*")))
+    master.filename = filedialog.askopenfilename(initialdir="dataBrain", title="Select A File", filetypes=(("png files", "*.png"),("all files", "*.*")))
     top = Toplevel()
     top.title("Chosen Image")
     myLabel = Label(master, text = master.filename)#.pack()
     #print(myLabel)
     #processing image in here
    #https://stackoverflow.com/questions/52558118/how-to-display-multiple-images-inside-tkinter-window
-    image = Image.open(master.filename)
+    image1 = Image.open(master.filename)
+    k_space = to_k_space(image1)
+    k_space_image = to_Pil_image(k_space)
+    k_space_image.save("k_space.png")
    # resized = myImage.resize((300,300),Image.ANTIALIAS)
     myImage = ImageTk.PhotoImage(Image.open(master.filename))#.resize((300,300),Image.ANTIALIAS))
     #tk_image = ImageTk.PhotoImage(myImage)
+    kImage = ImageTk.PhotoImage(Image.open("k_space.png"))
            
     first_image = Label(top, image= myImage)#.pack()
-    first_image.grid(row=0, column=0, columnspan=2)
+    k_first_image = Label(top, image= kImage)
+    l1 = Label(top, text= f"Original Image", foreground="black")
+    l2 = Label(top, text= f"K-space of Original Image", foreground="black")
+    l1.grid(row=0, column=0, columnspan=2)
+    first_image.grid(row=1, column=0, columnspan=2)
+    l2.grid(row=2,column=0, columnspan=2)
+    k_first_image.grid(row=3, column=0, columnspan=2)
     #btn2 = Button(top, text="Add Noise").pack() #, command = top.destroy)
     #btn2.grid(row=1, column= 0)
     btn_add_noise.grid(row=0, column= 1)
@@ -87,11 +79,15 @@ def noise_image():
     #first_image.grid_forget()
     top = Toplevel()
     top.title("Noise Image")
+    #do noise
+    image2 = noise_and_kspace(image1)
+    pil_image2 = to_Pil_image(image2)
+    pil_image2.save("noise.png")
     
-    image = Image.open("testing/test.png")
+   # image = Image.open("testing/test.png")
     # do noise
    # resized = myImage.resize((300,300),Image.ANTIALIAS)
-    noiseImage = ImageTk.PhotoImage(image)#.resize((300,300),Image.ANTIALIAS))
+    noiseImage = ImageTk.PhotoImage(Image.open("noise.png"))#.resize((300,300),Image.ANTIALIAS))
     #tk_image = ImageTk.PhotoImage(myImage)
            
     second_image = Label(top, image= noiseImage)#.pack()
@@ -101,7 +97,8 @@ def noise_image():
 
 def reconstruct_image():
     global third_image
-    global reconstructImage
+    global reconstruct
+    global image1
     global image2
     global image3
     btn_add_noise.grid_forget()
@@ -112,22 +109,21 @@ def reconstruct_image():
     #first_image.grid_forget()
     top = Toplevel()
     top.title("Reconstruct Image")
+    img_gt, img_und = preprocessImage( image1, image2)
+    image3 = reconstructImage(img_gt, img_und, 'machine_learning/restnet-model2.pt')
     
-    image = Image.open("testing/test.png")
+   # image = Image.open("pred1.png")
     # do noise
    # resized = myImage.resize((300,300),Image.ANTIALIAS)
-    noiseImage = ImageTk.PhotoImage(image)#.resize((300,300),Image.ANTIALIAS))
+    reconstruct= ImageTk.PhotoImage(Image.open("pred1.png"))#.resize((300,300),Image.ANTIALIAS))
     #tk_image = ImageTk.PhotoImage(myImage)
            
-    second_image = Label(top, image= noiseImage)#.pack()
-    second_image.grid(row=0, column=0, columnspan=2)
+    third_image = Label(top, image= reconstruct)#.pack()
+    third_image.grid(row=0, column=0, columnspan=2)
     btn_parameters.grid(row=0, column=3)
 
 def predictValue():
-    global third_image
-    global reconstructImage
-    global image2
-    global image3
+
     btn_add_noise.grid_forget()
 
     btn_reconstruct.grid_forget()
@@ -141,15 +137,15 @@ def predictValue():
 
     #################
     #generate TR and TE in prediction
-    test()
-    TR = "5"
-    TE = "2"
+    
+    TR = predictTR('machine_learning/model_tr.h5', 'labels/TR_labels.txt')#"5"
+    TE = predictTE('machine_learning/model_tr.h5', 'labels/TE_labels.txt') #"2"
       # Create text widget and specify size.
     p1 = Label(top3, text= f"TR : {TR}", foreground="black")
     p2 = Label(top3, text= f"TE : {TE}", foreground="black")
     p1.grid(row=0, column= 0, columnspan=3)
     p2.grid(row=1, column= 0, columnspan=3)
-    
+    btn_parameters.grid_forget()
   
 
   
