@@ -1,6 +1,6 @@
 [P, E] = mriphantom('Modified Shepp-Logan', 500);
 
-s = 9000;
+s = 10000;
 
 fa = 1;
 img_idx = 1;
@@ -21,8 +21,8 @@ for c = 1: s
         end
     end
     alfa = floor(60 * rand + 20);
-    TR = floor(800 * rand + 1);
-    TE = floor(80 * rand);
+    TR = floor(20 * rand + 1);
+    TE = floor(20 * rand);
     for r = 1 : height(ellipse)
          alfa1 = ellipse(r,2);
          beta1 = ellipse(r,3);

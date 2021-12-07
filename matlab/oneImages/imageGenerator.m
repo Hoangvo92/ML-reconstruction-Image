@@ -1,14 +1,14 @@
 
-s = 800;
+s = 3000;
 
 fa = 1;
 flag = 1;
 count = 0;
 img_index = 1;
 for c = 1: s
-    alfa = floor(20 * rand + 20);
-    TR = floor(800 * rand + 1);
-    TE = floor(60 * rand);
+    alfa = floor(40 * rand + 20);
+    TR = floor(20 * rand + 1);
+    TE = floor(20 * rand);
     E1 = makeEllipse(TR, TE, alfa);
     n_ellipse = height(E1);
     k = floor((n_ellipse -1) * rand + 1);
@@ -43,9 +43,24 @@ for c = 1: s
 
     E1(k, [2 3 4 5 6]) = [alfa1 beta1 cenx1 ceny1 phi1];
     E = E1(k, :);
-    createP = mriphantom(E, 500);
+    T1 = E(7);
+    T2 = E(8);
+    T2dot = E(10);
+    if k > 6
+        E2 = E1(k, :);
+        E2(5) = E2(5) - 0.3;
+        E2(4) = E2(4) + 0.3;
+        E3 = E1(k, :);
+        E3(5)= E3(5)+ 0.3;
+        E3(4) = E3(4) -0.3;
+
+
+        E = [E; E2; E3];
+    end
+
+    createP = mriphantom(E, 128);
     theSum = sum(sum(createP));
-    if theSum > 0.2
+    if theSum > 1.5
       baseFileName = sprintf('%d.png', img_index);
       fullFileName = fullfile('val/images', baseFileName);
       imwrite(createP, fullFileName);
