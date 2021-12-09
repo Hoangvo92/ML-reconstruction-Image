@@ -28,7 +28,7 @@ def to_k_space(image):
 
 def to_Pil_image(noise_image):
     #using this function after noise_and_kspace to show noise image
-    return Image.fromarray(np.uint8(noise_image)).convert('L')
+    return Image.fromarray(np.uint8(noise_image)).convert('RGB')
 
 
 def preprocessImage(image, noise_image):
