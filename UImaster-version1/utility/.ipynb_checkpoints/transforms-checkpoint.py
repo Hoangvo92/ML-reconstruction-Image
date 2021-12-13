@@ -28,13 +28,13 @@ def to_k_space(image):
 
 def to_Pil_image(noise_image):
     #using this function after noise_and_kspace to show noise image
-    return Image.fromarray(np.uint8(noise_image)).convert('RGB')
+    return Image.fromarray(np.uint8(noise_image)).convert('L')
 
 
 def preprocessImage(image, noise_image):
     preprocess = T.Compose([
-                           T.Resize(64),    #128 as maximum
-                           T.CenterCrop(64),
+                           T.Resize(128),    #128 as maximum
+                           T.CenterCrop(128),
                            T.ToTensor()
                             ])
     img_gt = preprocess(Image.fromarray(np.uint8(image)).convert('L'))

@@ -1,0 +1,5 @@
+Before running the UI, you need to download these models from the links:
+
+ model_t1.h5: https://drive.google.com/file/d/131x0QhQZ74IemlE09TXlii0yrpJMR5iD/view?usp=sharing
+ model_t2_h5: https://drive.google.com/file/d/15lh8F0FxXqKkzh6B3zEyXAkLPorPqaT5/view?usp=sharing
+ model_t2dot.h5: https://drive.google.com/file/d/10tw1QuRStzwy8cQ5EAsvbBAjqwtfYyWc/view?usp=sharing

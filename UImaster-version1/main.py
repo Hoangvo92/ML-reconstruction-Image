@@ -3,10 +3,11 @@ from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
 
-from predict.predictTR import *
-from predict.predictTE import *
-from predict.predictT1 import *
-from predict.predictT2 import *
+#from predict.predictTR import *
+#from predict.predictTE import *
+#from predict.predictT1 import *
+#from predict.predictT2 import *
+from predict.predictT import *
 from reconstruct.reconstructImage import *
 #from reconstruct.test import *
 from utility.transforms import noise_and_kspace, to_k_space, to_Pil_image, preprocessImage
@@ -26,7 +27,7 @@ import random
 master = Tk()
 master.title("MRI Reconstruction- Hoang Vo")
 #app = MainWindow(master)
-master.geometry("700x400")
+master.geometry("500x400")
 #master.iconbitgmap("ML-reconstruction-Image/")
 
 def open():
@@ -40,7 +41,7 @@ def open():
     btn_reconstruct.grid_forget()
    
     btn_parameters.grid_forget()
-    master.filename = filedialog.askopenfilename(initialdir="dataBrain", title="Select A File", filetypes=(("png files", "*.png"),("all files", "*.*")))
+    master.filename = filedialog.askopenfilename(initialdir="data/test/images", title="Select A File", filetypes=(("png files", "*.png"),("all files", "*.*")))
    # top = Toplevel()
     #top.title("Chosen Image")
     myLabel = Label(master, text = master.filename)#.pack()
@@ -114,7 +115,7 @@ def reconstruct_image():
     top = Toplevel()
     top.title("Reconstruct Image")
     img_gt, img_und = preprocessImage( image1, image2)
-    image3 = reconstructImage(img_gt, img_und, 'machine_learning/restnet-model2.pt')
+    image3 = reconstructImage(img_gt, img_und, 'machine_learning/restnet-model4.pt')
     
    # image = Image.open("pred1.png")
     # do noise
@@ -135,26 +136,27 @@ def predictValue():
     btn_parameters.grid_forget()
     #first_image.grid_forget()
     top3 = Toplevel()
-    top3.geometry("100x250")
-    top3.title("Values of TR and TE")
+    top3.geometry("100x100")
+    top3.title("Values of T1, T2, and T2*")
     
 
     #################
-    #generate TR and TE in prediction
+    #generate parameters in prediction
     
-    TR = predictTR('machine_learning/model_tr.h5', 'labels/TR_labels.txt')#"5"
-    TE = predictTE('machine_learning/model_tr.h5', 'labels/TE_labels.txt') #"2"
-    T1 = predictTE('machine_learning/model_t1.h5', 'labels/T1_labels.txt') #"2"
-    T2 = predictTE('machine_learning/model_t2.h5', 'labels/T2_labels.txt') #"2"
+   # TR = predictTR('machine_learning/model_tr.h5', 'labels/TR_labels.txt')#"5"
+    #TE = predictTE('machine_learning/model_tr.h5', 'labels/TE_labels.txt') #"2"
+    T1 = predictT('machine_learning/model_t1.h5', 'labels/T1_labels.txt') #"2"
+    T2 = predictT('machine_learning/model_t2.h5', 'labels/T2_labels.txt') #"2"
+    T2dot = predictT('machine_learning/model_t2dot.h5', 'labels/T2dot_labels.txt') #"2"
       # Create text widget and specify size.
-    p1 = Label(top3, text= f"TR : {TR}", foreground="black")
-    p2 = Label(top3, text= f"TE : {TE}", foreground="black")
-    p3 = Label(top3, text= f"T1 : {T1}", foreground="black")
-    p4 = Label(top3, text= f"T2 : {T2}", foreground="black")    
+    p1 = Label(top3, text= f"T1  = {T1}", foreground="black")
+    p2 = Label(top3, text= f"T2  = {T2}", foreground="black")
+    p3 = Label(top3, text= f"T2* = {T2dot}", foreground="black")
+     
     p1.grid(row=0, column= 0, columnspan=3)
     p2.grid(row=1, column= 0, columnspan=3)
     p3.grid(row=2, column= 0, columnspan=3)
-    p4.grid(row=3, column= 0, columnspan=3)
+
     btn_parameters.grid_forget()
   
 

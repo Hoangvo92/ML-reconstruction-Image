@@ -11,7 +11,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 import glob
 
-
 class baseBlock(torch.nn.Module):
     expansion = 1
     def __init__(self,input_planes,planes,stride=1,dim_change=None):
@@ -39,7 +38,7 @@ class ResNet(torch.nn.Module):
     def __init__(self,block,num_layers,classes=10):
         super(ResNet,self).__init__()
         #according to research paper:
-        self.input_planes = 64
+        self.input_planes = 64 #256
         self.conv1 = torch.nn.Conv2d(1,64,kernel_size=3,stride=1,padding=1)
         self.layer1 = self._layer(block,64,num_layers[0],stride=1)
         self.layer2 = self._layer(block,64,num_layers[1],stride=1)
@@ -49,16 +48,16 @@ class ResNet(torch.nn.Module):
         self.layer6 = self._layer(block,64,num_layers[3],stride=1)
         self.layer7 = self._layer(block,64,num_layers[3],stride=1)
         self.layer8 = self._layer(block,64,num_layers[2],stride=1)
-        self.layer9 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer10 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer11 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer12 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer13 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer14 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer15 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer16 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer17 = self._layer(block,64,num_layers[3],stride=1)
-        self.layer18 = self._layer(block,64,num_layers[3],stride=1)
+     #   self.layer9 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer10 = self._layer(block,64,num_layers[3],stride=1)
+     #   self.layer11 = self._layer(block,64,num_layers[3],stride=1)
+     #   self.layer12 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer13 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer14 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer15 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer16 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer17 = self._layer(block,64,num_layers[3],stride=1)
+      #  self.layer18 = self._layer(block,64,num_layers[3],stride=1)
         self.conv2 = torch.nn.Conv2d(64,1,kernel_size=3,stride=1, padding=1)
         
     
@@ -86,16 +85,16 @@ class ResNet(torch.nn.Module):
         x = self.layer6(x)
         x = self.layer7(x)
         x = self.layer8(x)
-        x = self.layer9(x)
-        x = self.layer10(x)
-        x = self.layer11(x)
-        x = self.layer12(x)
-        x = self.layer13(x)
-        x = self.layer14(x)
-        x = self.layer15(x)
-        x = self.layer16(x)
-        x = self.layer17(x)
-        x = self.layer18(x)
+     #   x = self.layer9(x)
+   #     x = self.layer10(x)
+     #   x = self.layer11(x)
+      #  x = self.layer12(x)
+      #  x = self.layer13(x)
+     #   x = self.layer14(x)
+      #  x = self.layer15(x)
+     #   x = self.layer16(x)
+     #   x = self.layer17(x)
+     #   x = self.layer18(x)
         x = self.conv2(x)
 
         return x
