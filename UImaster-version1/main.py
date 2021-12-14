@@ -70,6 +70,7 @@ def open():
     btn_add_noise['state'] = NORMAL
 def call_k_space():
     img = Image.open("k_space.png")#.convert('RGB')
+    print("get file")
     kImage = ImageTk.PhotoImage(img)
     k_first_image = Label(master, image= kImage)   
     k_first_image.grid(row=3, column=4, columnspan=2)
