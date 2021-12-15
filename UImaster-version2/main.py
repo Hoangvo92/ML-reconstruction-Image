@@ -36,11 +36,11 @@ def open():
     global image1 # original image
     
     #first_image.grid_forget()
-    btn_add_noise.grid_forget()
+    btn_add_noise['state'] = DISABLED
 
-    btn_reconstruct.grid_forget()
+    btn_reconstruct['state'] = DISABLED
    
-    btn_parameters.grid_forget()
+    btn_parameters['state'] = DISABLED
     master.filename = filedialog.askopenfilename(initialdir="dataBrain", title="Select A File", filetypes=(("png files", "*.png"),("all files", "*.*")))
    # top = Toplevel()
     #top.title("Chosen Image")
@@ -55,33 +55,38 @@ def open():
    # resized = myImage.resize((300,300),Image.ANTIALIAS)
     myImage = ImageTk.PhotoImage(Image.open(master.filename))#.resize((300,300),Image.ANTIALIAS))
     #tk_image = ImageTk.PhotoImage(myImage)
-    img = Image.open("k_space.png")#.convert('RGB')
-    kImage = ImageTk.PhotoImage(img)
+
            
     first_image = Label(master, image= myImage)#.pack()
-    k_first_image = Label(master, image= kImage)
-    l1 = Label(master, text= f"Original Image", foreground="black")
-    l2 = Label(master, text= f"K-space of Original Image", foreground="black")
+
+
    # myLabel.grid(row=1, column=0, columnspan=12)
-    l1.grid(row=2, column=0, columnspan=2)
+    #l1.grid(row=2, column=0, columnspan=2)
     first_image.grid(row=3, column=0, columnspan=2)
-    l2.grid(row=2,column=4, columnspan=2)
-    k_first_image.grid(row=3, column=4, columnspan=2)
+    #l2.grid(row=2,column=4, columnspan=2)
+
     #btn2 = Button(top, text="Add Noise").pack() #, command = top.destroy)
     #btn2.grid(row=1, column= 0)
-    btn_add_noise.grid(row=0, column= 1)
+    btn_add_noise['state'] = NORMAL
+def call_k_space():
+    img = Image.open("k_space.png")#.convert('RGB')
+    print("get file")
+    kImage = ImageTk.PhotoImage(img)
+    k_first_image = Label(master, image= kImage)   
+    k_first_image.grid(row=3, column=4, columnspan=2)
     
 def noise_image():
     global second_image
     global noiseImage
     global image1
     global image2
-    btn_add_noise.grid_forget()
+    btn_add_noise['state'] = DISABLED
 
-    btn_reconstruct.grid_forget()
+    btn_reconstruct['state'] = DISABLED
    
-    btn_parameters.grid_forget()
+    btn_parameters['state'] = DISABLED
     #first_image.grid_forget()
+    call_k_space()
     top = Toplevel()
     top.title("Noise Image")
     #do noise
@@ -97,7 +102,7 @@ def noise_image():
            
     second_image = Label(top, image= noiseImage)#.pack()
     second_image.grid(row=0, column=0, columnspan=2)
-    btn_reconstruct.grid(row=0, column=2)
+    btn_reconstruct['state'] = NORMAL
 
 
 def reconstruct_image():
@@ -106,11 +111,11 @@ def reconstruct_image():
     global image1
     global image2
     global image3
-    btn_add_noise.grid_forget()
+    btn_add_noise['state'] = DISABLED
 
-    btn_reconstruct.grid_forget()
+    btn_reconstruct['state'] = DISABLED
    
-    btn_parameters.grid_forget()
+    btn_parameters['state'] = DISABLED
     #first_image.grid_forget()
     top = Toplevel()
     top.title("Reconstruct Image")
@@ -125,15 +130,16 @@ def reconstruct_image():
            
     third_image = Label(top, image= reconstruct)#.pack()
     third_image.grid(row=0, column=0, columnspan=2)
-    btn_parameters.grid(row=0, column=3)
+    #btn_parameters.grid(row=0, column=3)
+    btn_parameters['state'] = NORMAL
 
 def predictValue():
 
-    btn_add_noise.grid_forget()
+    btn_add_noise['state'] = DISABLED
 
-    btn_reconstruct.grid_forget()
+    btn_reconstruct['state'] = DISABLED
    
-    btn_parameters.grid_forget()
+    btn_parameters['state'] = DISABLED
     #first_image.grid_forget()
     top3 = Toplevel()
     top3.geometry("100x100")
@@ -157,10 +163,20 @@ def predictValue():
     p2.grid(row=1, column= 0, columnspan=3)
     p3.grid(row=2, column= 0, columnspan=3)
 
-    btn_parameters.grid_forget()
+   # btn_parameters.grid_forget()
   
 
+  
+   
 
+#image1 = ImageTk.PhotoImage(Image.open("testing/test.png").resize((300,300),Image.ANTIALIAS))
+#first_image = Label(image = image1 )
+#first_image.grid(row=0, column=0, columnspan=2)
+#second_image = Label(image = image1)
+#second_image.grid(row=0, column=2, columnspan=2)
+#third_image = Label(image = image1)
+#third_image.grid(row=0, column=4, columnspan=2)
+                
                   
 btn_open =  Button(master, text= "Open File" , command = open) #.pack()
 
@@ -171,13 +187,19 @@ btn_parameters = Button(master, text="Predict Values", command=predictValue)
 
 
 btn_open.grid(row = 0, column= 0)
-btn_add_noise.grid(row=0, column= 1)
-btn_add_noise.grid_forget()
-btn_reconstruct.grid(row=0, column=2)
-btn_reconstruct.grid_forget()
-btn_parameters.grid(row=0, column =3)
-btn_parameters.grid_forget()
-    
+btn_add_noise.grid(row=0, column= 2)
+btn_add_noise['state'] = DISABLED
+btn_reconstruct.grid(row=0, column=4)
+btn_reconstruct['state'] = DISABLED
+btn_parameters.grid(row=0, column = 6)
+btn_parameters['state'] = DISABLED
+
+l1 = Label(master, text= f"Original Image", foreground="black")
+l2 = Label(master, text= f"K-space of Original Image", foreground="black")
+l1.grid(row=2, column=0, columnspan=2)
+l2.grid(row=2,column=4, columnspan=2)
+
+
 master.mainloop()
 #app.mainloop()
 
