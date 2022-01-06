@@ -20,12 +20,3 @@ To run the Mathlab GUI, you open matlab environment at this directory and simply
 To run the Python GUI, you open Python environment at this directory and simply run "python main.py"
 
 
-If you want to make changes in ResNet Architectures in the machine learning to improve training results (adding layers, cut down layers, and so on), then:
-     - change architecture in Class ResNet() in submit/deeplearning/final128.ipynb
-     - copy the class Resnet in the code block in final128.ipynb
-     - nevigate to master/models/
-     - open resnet.py
-     - update the class resnet
-     
-If the code cannot run, then you should check whether the functions in master/utility/transforms.py need adjustment to suit the new ResNet architecture
-
